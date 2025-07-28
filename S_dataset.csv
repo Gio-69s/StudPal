@@ -1,0 +1,11 @@
+questions,reponses
+Quelle est la dérivée de f(x) = x³ ?,f'(x) = 3x²
+Résous l'équation f'(x) = 0 si f(x) = x² - 4x + 3,"f'(x) = 2x - 4, donc 2x - 4 = 0 → x = 2"
+Donne la limite de (1/x) quand x tend vers +∞,0
+"Soit uₙ = 3n + 2, est-ce une suite arithmétique ?","Oui, de raison 3"
+Quelle est la somme des termes d’une suite arithmétique de 1 à 100 ?,(1 + 100) × 100 / 2 = 5050
+Quelle est la dérivée de sin(x) ?,cos(x)
+Quelle est la dérivée de ln(x) ?,1/x
+"Soit f(x) = x² + 1, est-elle croissante sur ℝ ?","Oui, car f'(x) = 2x ≥ 0 ⇔ x ≥ 0. Donc croissante sur [0 ; +∞["
+"Dans une loi binomiale B(n=10 ; p=0,2), calcule E(X)","E(X) = n × p = 10 × 0,2 = 2"
+"Si une suite uₙ vérifie uₙ₊₁ = 0,5uₙ, que peut-on dire ?",

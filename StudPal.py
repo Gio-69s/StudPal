@@ -15,6 +15,14 @@ def generate_text(prompt):
     Returns:
         str: The generated text.
     """
-    # Generate text using the pipeline
-    response = generator(prompt, max_length=50, num_return_sequences=1)
-    return response[0]['generated_text']
+# Create a loop to continuously accept user input
+    while True:
+        prompt = input("You :")
+        # Generate text using the pipeline
+        response = generator(prompt.strip(), max_length=50, num_return_sequences=1)
+        return f"StudPal : {response[0]['generated_text']}"
+        # Check if the user wanna exit the loop
+        if prompt.lower() == 'exit':
+            print(" StudPal : See you soon champion!")
+            break
+        

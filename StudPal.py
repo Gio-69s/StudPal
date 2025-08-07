@@ -1,12 +1,13 @@
 from transformers import pipeline
 import gradio as gr 
 
-
 # Initialize the text generation pipeline with a specific task and model
 task = "text-generation"
 model = "openai-community/gpt2"
+
 # Loading the model with a specified temperature for generation
 generator = pipeline(task, model , temperature= 0.7)
+
 # Define a function to handle text generation
 def generate_text(prompt):
     """
@@ -28,8 +29,7 @@ root= gr.Interface(
     inputs=gr.Textbox(lines=2, placeholder="Enter your prompt here..."),
     outputs=gr.Textbox(label="Your answer!"),
     title = "StudPal AI",
-    description= "An AI-powered study companion that helps you with your studies by generating text based on your prompts.",
-    
+    description= "An AI-powered study companion that helps you with your studies by generating text based on your prompts."
 )
-    
-        
+# Launch the Gradio interface
+root.launch()

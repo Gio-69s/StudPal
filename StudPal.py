@@ -1,9 +1,12 @@
-from transformers import pipeline
+from transformers import pipeline, AutoTokenizer
 import gradio as gr 
 
 # Initialize the text generation pipeline with a specific task and model
 task = "text-generation"
 model = "openai-community/gpt2"
+
+# Load the tokenizer for the specified model
+tokenizer = AutoTokenizer.from_pretrained(model)
 
 # Loading the model with a specified temperature for generation
 generator = pipeline(task, model , temperature= 0.7, top_k=50, top_p=0.95)
@@ -20,7 +23,12 @@ def generate_text(prompt):
         str: The generated text response.
     """
     # Generate text using the pipeline
-    response = generator(prompt.strip(), max_length=50, num_return_sequences=1,repetition_penalty=1.2)
+    response = generator(prompt.strip(),
+                          max_length=50,
+                            num_return_sequences=1,
+                            repetition_penalty=1.3,
+                            eos_token_id=tokenizer.encode("")
+                            )
     return response[0]['generated_text']
 
 # Create a Gradio interface for the text generation function

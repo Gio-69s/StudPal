@@ -6,7 +6,7 @@ task = "text-generation"
 model = "openai-community/gpt2"
 
 # Loading the model with a specified temperature for generation
-generator = pipeline(task, model , temperature= 0.7)
+generator = pipeline(task, model , temperature= 0.7, top_k=50, top_p=0.95)
 
 # Define a function to handle text generation
 def generate_text(prompt):
@@ -20,7 +20,7 @@ def generate_text(prompt):
         str: The generated text response.
     """
     # Generate text using the pipeline
-    response = generator(prompt.strip(), max_length=50, num_return_sequences=1)
+    response = generator(prompt.strip(), max_length=50, num_return_sequences=1,repetition_penalty=1.2)
     return response[0]['generated_text']
 
 # Create a Gradio interface for the text generation function

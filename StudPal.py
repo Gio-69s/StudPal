@@ -26,8 +26,7 @@ def generate_text(prompt):
     response = generator(prompt.strip(),
                           max_length=50,
                             num_return_sequences=1,
-                            repetition_penalty=1.3,
-                            eos_token_id=tokenizer.encode("")
+                            repetition_penalty=1.3
                             )
     return response[0]['generated_text']
 

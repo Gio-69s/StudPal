@@ -3,13 +3,13 @@ import gradio as gr
 
 # Initialize the text generation pipeline with a specific task and model
 task = "text-generation"
-model = "openai-community/gpt2"
+model = "deepset/roberta-base-squad2"
 
 # Load the tokenizer for the specified model
 tokenizer = AutoTokenizer.from_pretrained(model)
 
 # Loading the model with a specified temperature for generation
-generator = pipeline(task, model , temperature= 0.7, top_k=50, top_p=0.95)
+generator = pipeline(task, model , temperature= 0.1, top_k=50, top_p=0.95)
 
 # Define a function to handle text generation
 def generate_text(prompt):

@@ -44,4 +44,9 @@ root= gr.Interface(
     description= "An AI-powered study companion that helps you with your studies by generating text based on your prompts."
 )
 # Launch the Gradio interface
-root.launch()
+root.launch(share=True,
+            server_name='StudPal',
+            server_port=7860,
+            debug=True,
+            inbrowser=True,
+            )

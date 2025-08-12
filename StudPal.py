@@ -1,15 +1,20 @@
-from transformers import pipeline, AutoTokenizer
+from transformers import pipeline
 import gradio as gr 
+import torch
+
 
 # Initialize the text generation pipeline with a specific task and model
-task = "text-generation"
-model = "deepset/roberta-base-squad2"
-
-# Load the tokenizer for the specified model
-tokenizer = AutoTokenizer.from_pretrained(model)
+task = "text2text-generation"
+model = "google/flan-t5-base"
 
 # Loading the model with a specified temperature for generation
-generator = pipeline(task, model , temperature= 0.1, top_k=50, top_p=0.95)
+generator = pipeline(task,
+                    model,
+                    torch_dtype=torch.float16,  # Use float16 for better performance on compatible hardware
+                    device=0,
+                    temperature= 0.1,
+                    top_k=50,
+                    top_p=0.95)
 
 # Define a function to handle text generation
 def generate_text(prompt):

@@ -12,24 +12,24 @@ generator = pipeline(task,
                     model,
                     torch_dtype=torch.float16,  # Use float16 for better performance on compatible hardware
                     device=0,
-                    temperature= 0.1,
-                    top_k=50,
-                    top_p=0.95)
-
+                    temperature=0.7, # Adjust temperature for creativity and precision in responses
+                    trust_remote_code=True, # Trust remote code for model compatibility
+                    )
 # Define a function to handle text generation
 def generate_text(prompt):
     """
-    Generate text based on the provided prompt.
-    
+    Generate text based on the provided prompt using the initialized pipeline.
     Args:
-        prompt (str): The input text to generate a response for.
-        
+        prompt (str): The input text prompt for text generation.
     Returns:
-        str: The generated text response.
+       str: The generated text response.
     """
-    # Generate text using the pipeline
-    response = generator(prompt.strip(),
-                          max_length=50,
+    if not prompt:
+        return "Please enter a valid prompt."
+    else :
+        # Generate text using the pipeline
+        response = generator(prompt.strip(),
+                            max_length=50,
                             num_return_sequences=1,
                             repetition_penalty=1.3
                             )

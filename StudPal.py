@@ -46,7 +46,6 @@ root= gr.Interface(
 # Launch the Gradio interface
 root.launch(share=True,
             server_name='StudPal',
-            server_port=7860,
             debug=True,
             inbrowser=True,
             )

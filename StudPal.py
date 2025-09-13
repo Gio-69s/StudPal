@@ -38,7 +38,6 @@ def generate_text(prompt):
                             repetition_penalty=1.3
                             )
     return response[0]['generated_text']
-
 # Create a Gradio interface for the text generation function
 root= gr.Interface(
     fn=generate_text, 

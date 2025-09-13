@@ -1,23 +1,37 @@
 # StudPal
-StudPal is an intelligent chatbot designed to assist students with their studies by answering academic questions, providing explanations, and generating helpful text responses based on user prompts.
+
+StudPal is an intelligent chatbot designed to help students with their studies. It answers academic questions, explains concepts, and generates helpful text responses based on your prompts.
 
 ## Technologies Used
+
 - Python
 - PyTorch
 - Hugging Face Transformers
-- Gradio (for the web interface)
+- Gradio (web interface)
 - Google FLAN-T5 model (LLM)
+- **Haystack** (being progressively integrated for Retrieval-Augmented Generation, to improve answer quality)
 
 ## Features
-- Answers academic questions using AI
-- Generates text responses based on user prompts
-- Easy-to-use web interface
-- Fast and accurate responses powered by Google FLAN-T5 model
-- Supports creative and precise answers with adjustable temperature
 
+- Answers academic questions using AI
+- Generates text responses from user prompts
+- Simple, user-friendly web interface
+- Fast and accurate responses powered by Google FLAN-T5
+- Adjustable temperature for creative or precise answers
+- **Upcoming:** Enhanced answers using Haystack and RAG (Retrieval-Augmented Generation)
 
 ## Usage
-To use StudPal , you just have to write the prompt or the question you want him to answer in the prompt space and then click on the button "Submit".Then he'll give you your answer!
+
+Just type your question or prompt in the input box and click "Submit." StudPal will generate an answer for you!
+
+## Progress
+
+I'm currently adding Haystack to the codebase to enable Retrieval-Augmented Generation (RAG). This will allow StudPal to provide even more accurate and context-aware answers by retrieving relevant information before generating responses.
 
 ## Contact
-For questions or support, contact [giovanni.adadja@gmail.com](mailto:giovanni.adadja@gmail.com)  
+
+For questions or support, contact [giovanni.adadja@gmail.com](mailto:giovanni.adadja@gmail.com)
+
+---
+
+*This README was improved with the help of GitHub Copilot, an AI programming assistant.*

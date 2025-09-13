@@ -1,7 +1,11 @@
 from transformers import pipeline
 import gradio as gr 
 import torch
-
+from haystack import Pipeline, Document
+from haystack.document_stores.in_memory import InMemoryDocumentStore
+from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
+from haystack.components.builders.chat_prompt_builder import ChatPromptBuilder
+from haystack.dataclasses import ChatMessage
 
 # Initialize the text generation pipeline with a specific task and model
 task = "text2text-generation"
@@ -44,4 +48,4 @@ root= gr.Interface(
     description= "An AI-powered study companion that helps you with your studies by generating text based on your prompts."
 )
 # Launch the Gradio interface
-root.launch()
+root.launch(share=True)

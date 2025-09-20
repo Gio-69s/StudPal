@@ -6,10 +6,34 @@ from haystack.document_stores.in_memory import InMemoryDocumentStore
 from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
 from haystack.components.builders.chat_prompt_builder import ChatPromptBuilder
 from haystack.dataclasses import ChatMessage
+import PyPDF2
+
+#Extract from PDF
+def extract_text_from_pdf(file_path):
+    """
+    Extract text from a PDF file.
+    Args:
+        file_path (str): The path to the PDF file.
+    Returns:
+        str: The extracted text from the PDF.
+    """
+    text = ""
+    try:
+        with open(file_path, "rb") as file:
+            reader = PyPDF2.PdfReader(file)
+            for page in reader.pages:
+                text += page.extract_text() + "\n"
+    except Exception as e:
+        return f"Error reading PDF file: {e}"
+    return text if text else "No text found in the PDF."
+# Example usage:
+# pdf_text = extract_text_from_pdf("example.pdf")
+#print("PDF text extraction function is ready.")
 
 # Initialize the text generation pipeline with a specific task and model
 task = "text2text-generation"
 model = "google/flan-t5-base"
+
 
 # Loading the model with a specified temperature for generation
 generator = pipeline(task,

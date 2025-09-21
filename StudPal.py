@@ -1,6 +1,7 @@
 from transformers import pipeline
 import gradio as gr 
 import torch
+# from haystack.nodes import HuggingFaceGenerator
 from haystack import Pipeline, Document
 from haystack.document_stores.in_memory import InMemoryDocumentStore
 from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
@@ -29,6 +30,7 @@ def extract_text_from_pdf(file_path):
 # Example usage:
 # pdf_text = extract_text_from_pdf("example.pdf")
 #print("PDF text extraction function is ready.")
+extract_text_from_pdf("Manuel_de_Maths_es.pdf")
 
 # Initialize the text generation pipeline with a specific task and model
 task = "text2text-generation"

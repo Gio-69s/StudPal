@@ -54,8 +54,10 @@ rag_pipeline=Pipeline()
 rag_pipeline.add_component("retriever", retriever)
 rag_pipeline.add_component("prompt_builder", prompt_builder)
 rag_pipeline.add_component("llm", llm)
-
-# Translation pipelines
+rag_pipeline.connect("retriever", "prompt_builder")
+rag_pipeline.connect("prompt_builder", "llm")
+ 
+#Translation pipelines
 en_to_fr =pipeline("translation_en_to_fr", model="Helsinki-NLP/opus-mt-en-fr")
 fr_to_en = pipeline("translation_fr_to_en", model="Helsinki-NLP/opus-mt-fr-en")
 

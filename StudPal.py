@@ -1,7 +1,6 @@
 from transformers import pipeline
 import gradio as gr 
 import torch
-# from haystack.nodes import HuggingFaceGenerator
 from haystack import Pipeline, Document
 from haystack.document_stores.in_memory import InMemoryDocumentStore
 from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
@@ -36,6 +35,9 @@ extract_text_from_pdf("Manuel_de_Maths_es.pdf")
 task = "text2text-generation"
 model = "google/flan-t5-base"
 
+# Translation pipelines
+en_to_fr =pipeline("translation_en_to_fr", model="Helsinki-NLP/opus-mt-en-fr")
+fr_to_en = pipeline("translation_fr_to_en", model="Helsinki-NLP/opus-mt-fr-en")
 
 # Loading the model with a specified temperature for generation
 generator = pipeline(task,
@@ -45,32 +47,45 @@ generator = pipeline(task,
                     temperature=0.7, # Adjust temperature for creativity and precision in responses
                     trust_remote_code=True, # Trust remote code for model compatibility
                     )
-# Define a function to handle text generation
-def generate_text(prompt):
+
+# Define a function to handle text generation with translation
+def translate_n_generate_text(prompt):
     """
-    Generate text based on the provided prompt using the initialized pipeline.
+    Translate the input prompt from French to English, generate a response in English, and translate it back to French.
     Args:
-        prompt (str): The input text prompt for text generation.
+        prompt (str): The input text prompt in French.
     Returns:
-       str: The generated text response.
+       str: The generated response translated back to French
     """
     if not prompt:
         return "Please enter a valid prompt."
     else :
-        # Generate text using the pipeline
-        response = generator(prompt.strip(),
-                            max_length=50,
+        # Student asks in French
+        question_in_fr= prompt.strip()
+        question_in_en= fr_to_en(question_in_fr,
+                                max_lenght=100,
+                                num_return_sequences=1,
+                                repetition_penalty=1.3)[0]['translation_text']
+        # Generate answer in English
+        answer_en=generator(question_in_en.strip(),
+                            max_length=100,
                             num_return_sequences=1,
-                            repetition_penalty=1.3
-                            )
-    return response[0]['generated_text']
+                            repetition_penalty=1.3)[0]['generated_text']
+        
+        # Translate answer back to French
+        answer_fr=en_to_fr(answer_en.strip(),
+                        num_return_sequences=1,
+                        repetition_penalty=1.3)
+        
+    return answer_fr[0]['translated_text']
+
 # Create a Gradio interface for the text generation function
 root= gr.Interface(
-    fn=generate_text, 
+    fn=translate_n_generate_text, 
     inputs=gr.Textbox(lines=2, placeholder="Enter your prompt here..."),
     outputs=gr.Textbox(label="Your answer!"),
     title = "StudPal AI",
     description= "An AI-powered study companion that helps you with your studies by generating text based on your prompts."
 )
 # Launch the Gradio interface
-root.launch(share=True)
+root.launch()

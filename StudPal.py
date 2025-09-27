@@ -4,7 +4,7 @@ import torch
 from haystack import Pipeline, Document
 from haystack.document_stores.in_memory import InMemoryDocumentStore
 from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
-from haystack.components.builders.chat_prompt_builder import ChatPromptBuilder
+from haystack.components.builders.prompt_builder import PromptBuilder
 from haystack.dataclasses import ChatMessage
 import PyPDF2
 
@@ -29,11 +29,31 @@ def extract_text_from_pdf(file_path):
 # Example usage:
 # pdf_text = extract_text_from_pdf("example.pdf")
 #print("PDF text extraction function is ready.")
-extract_text_from_pdf("Manuel_de_Maths_es.pdf")
+
+#Setting up the document store and retriever
+document_store=InMemoryDocumentStore()
+document_store.write_documents=([Document(content=extract_text_from_pdf("Manuel_de_Maths_es.pdf"))])
+retriever=InMemoryBM25Retriever(document_store=document_store)
+
+# Setting up the prompt template and the prompt builder
+prompt_template='''
+You're an assistant that helps students with their studies. 
+Use the following pieces of context to answer the question at the end.
+If you don't know the answer, just say that you don't know, don't try to make up an answer.'''
+prompt_builder=PromptBuilder(prompt_template=prompt_template)
 
 # Initialize the text generation pipeline with a specific task and model
 task = "text2text-generation"
 model = "google/flan-t5-base"
+
+# Define the llm for RAG 
+llm = model
+
+#Create a pipeline instance 
+rag_pipeline=Pipeline()
+rag_pipeline.add_component("retriever", retriever)
+rag_pipeline.add_component("prompt_builder", prompt_builder)
+rag_pipeline.add_component("llm", llm)
 
 # Translation pipelines
 en_to_fr =pipeline("translation_en_to_fr", model="Helsinki-NLP/opus-mt-en-fr")

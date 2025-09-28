@@ -10,7 +10,7 @@ StudPal is an intelligent chatbot designed to help students with their studies. 
 - Gradio (web interface)
 - Google FLAN-T5 model (LLM)
 - Haystack (for Retrieval-Augmented Generation)
-- PDFPlumber (for PDF text extraction)
+- PyPDF2 (for PDF text extraction)
 
 ## Features
 

@@ -35,12 +35,12 @@ document_store=InMemoryDocumentStore()
 document_store.write_documents=([Document(content=extract_text_from_pdf("Manuel_de_Maths_es.pdf"))])
 retriever=InMemoryBM25Retriever(document_store=document_store)
 
-# Setting up the prompt template and the prompt builder
-prompt_template='''
-You're an assistant that helps students with their studies. 
-Use the following pieces of context to answer the question at the end.
-If you don't know the answer, just say that you don't know, don't try to make up an answer.'''
-prompt_builder=PromptBuilder(prompt_template=prompt_template)
+# Setting up the prompt builder
+prompt_template = ("Use the following context to answer the question.\n\n"
+                   "Context: {context}\n\n"
+                   "Question: {question}\n\n"
+                   "Answer:")
+prompt_builder = PromptBuilder(prompt_template=prompt_template)
 
 # Initialize the text generation pipeline with a specific task and model
 task = "text2text-generation"
@@ -111,7 +111,7 @@ def translate_n_generate_text(prompt):
                         num_return_sequences=1,
                         repetition_penalty=1.3)
         # Return the translated answer
-        
+
         return answer_fr[0]['translated_text']
 
         

@@ -55,7 +55,7 @@ rag_pipeline.add_component("retriever", retriever)
 rag_pipeline.add_component("prompt_builder", prompt_builder)
 rag_pipeline.add_component("llm", llm)
 rag_pipeline.connect("retriever", "prompt_builder")
-rag_pipeline.connect("prompt_builder", "llm")
+rag_pipeline.connect("prompt_builder", "llm.messages")
  
 #Translation pipelines
 en_to_fr =pipeline("translation_en_to_fr", model="Helsinki-NLP/opus-mt-en-fr")
@@ -82,25 +82,40 @@ def translate_n_generate_text(prompt):
     if not prompt:
         return "Please enter a valid prompt."
     else :
+        
         # Student asks in French
         question_in_fr= prompt.strip()
         question_in_en= fr_to_en(question_in_fr,
                                 max_lenght=100,
                                 num_return_sequences=1,
                                 repetition_penalty=1.3)[0]['translation_text']
-        # Generate answer in English
-        answer_en=generator(question_in_en.strip(),
-                            max_length=100,
-                            num_return_sequences=1,
-                            repetition_penalty=1.3)[0]['generated_text']
+        
+        # RAG pipeline to get context-aware answer
+        question=question_in_en.strip()
+        results= rag_pipeline.run(
+            {
+                "retriever":{
+                    "query": question
+                },
+                "prompt_builder":{
+                    "question":question
+                },
+            }
+        )
+
+        # Get the generated answer in English
+        answer_en=results['llm'][0].generated_text
         
         # Translate answer back to French
         answer_fr=en_to_fr(answer_en.strip(),
                         num_return_sequences=1,
                         repetition_penalty=1.3)
+        # Return the translated answer
         
-    return answer_fr[0]['translated_text']
+        return answer_fr[0]['translated_text']
 
+        
+        
 # Create a Gradio interface for the text generation function
 root= gr.Interface(
     fn=translate_n_generate_text, 

@@ -36,10 +36,13 @@ document_store.write_documents=([Document(content=extract_text_from_pdf("Manuel_
 retriever=InMemoryBM25Retriever(document_store=document_store)
 
 # Setting up the prompt builder
-prompt_template = ("Use the following context to answer the question.\n\n"
-                   "Context: {context}\n\n"
-                   "Question: {question}\n\n"
-                   "Answer:")
+prompt_template = (
+    "Use the following context to answer the question.\n\n"
+    "Context:\n"
+    "{% for doc in documents %}{{ doc.content }}\n{% endfor %}\n"
+    "Question: {{question}}\n"
+    "Answer:"
+)
 prompt_builder = PromptBuilder(prompt_template=prompt_template)
 
 # Initialize the text generation pipeline with a specific task and model
@@ -54,7 +57,7 @@ rag_pipeline=Pipeline()
 rag_pipeline.add_component("retriever", retriever)
 rag_pipeline.add_component("prompt_builder", prompt_builder)
 rag_pipeline.add_component("llm", llm)
-rag_pipeline.connect("retriever", "prompt_builder")
+rag_pipeline.connect("retriever", "prompt_builder.documents")
 rag_pipeline.connect("prompt_builder", "llm.messages")
  
 #Translation pipelines

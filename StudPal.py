@@ -7,6 +7,7 @@ from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
 from haystack.components.builders.prompt_builder import PromptBuilder
 from haystack.dataclasses import ChatMessage
 import PyPDF2
+from haystack.components.generators import BaseGenerator
 
 #Extract from PDF
 def extract_text_from_pdf(file_path):
@@ -40,26 +41,17 @@ prompt_template = (
     "Use the following context to answer the question.\n\n"
     "Context:\n"
     "{% for doc in documents %}{{ doc.content }}\n{% endfor %}\n"
-    "Question: {{question}}\n"
+    "Question: {{question}}\n" 
     "Answer:"
 )
-prompt_builder = PromptBuilder(prompt_template=prompt_template)
+prompt_builder = PromptBuilder(template=prompt_template)
 
 # Initialize the text generation pipeline with a specific task and model
 task = "text2text-generation"
 model = "google/flan-t5-base"
 
-# Define the llm for RAG 
-llm = model
 
-#Create a pipeline instance 
-rag_pipeline=Pipeline()
-rag_pipeline.add_component("retriever", retriever)
-rag_pipeline.add_component("prompt_builder", prompt_builder)
-rag_pipeline.add_component("llm", llm)
-rag_pipeline.connect("retriever", "prompt_builder.documents")
-rag_pipeline.connect("prompt_builder", "llm.messages")
- 
+
 #Translation pipelines
 en_to_fr =pipeline("translation_en_to_fr", model="Helsinki-NLP/opus-mt-en-fr")
 fr_to_en = pipeline("translation_fr_to_en", model="Helsinki-NLP/opus-mt-fr-en")
@@ -72,7 +64,28 @@ generator = pipeline(task,
                     temperature=0.7, # Adjust temperature for creativity and precision in responses
                     trust_remote_code=True, # Trust remote code for model compatibility
                     )
+# Custom generator class to integrate Hugging Face pipeline with Haystack
+class HFPipelineGenerator(BaseGenerator):
+    def __init__(self, hf_pipeline):
+        super().__init__()
+        self.hf_pipeline = hf_pipeline
 
+    def run(self, messages, **kwargs):
+        prompt = "\n".join([msg.content for msg in messages])
+        response = self.hf_pipeline(prompt, max_length=50, num_return_sequences=1)
+        return {"replies": [response[0]['generated_text']]}
+    
+# Define the llm for RAG 
+llm = HFPipelineGenerator(generator)
+
+#Create a pipeline instance 
+rag_pipeline=Pipeline()
+rag_pipeline.add_component("retriever", retriever)
+rag_pipeline.add_component("prompt_builder", prompt_builder)
+rag_pipeline.add_component("llm", llm)
+rag_pipeline.connect("retriever", "prompt_builder.documents")
+rag_pipeline.connect("prompt_builder", "llm.messages")
+ 
 # Define a function to handle text generation with translation
 def translate_n_generate_text(prompt):
     """
@@ -129,3 +142,4 @@ root= gr.Interface(
 )
 # Launch the Gradio interface
 root.launch()
+

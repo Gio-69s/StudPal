@@ -7,7 +7,7 @@ from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
 from haystack.components.builders.prompt_builder import PromptBuilder
 from haystack.dataclasses import ChatMessage
 import PyPDF2
-from haystack.components.generators import BaseGenerator
+from haystack.components.generators import HuggingFaceLocalGenerator
 
 # --- PDF Extraction ---
 def extract_text_from_pdf(file_path):
@@ -65,7 +65,7 @@ generator = pipeline(
 )
 
 # --- Custom Haystack Generator Component ---
-class HFPipelineGenerator(BaseGenerator):
+class HFPipelineGenerator(HuggingFaceLocalGenerator):
     """
     Custom Haystack generator that wraps a Hugging Face pipeline.
     """

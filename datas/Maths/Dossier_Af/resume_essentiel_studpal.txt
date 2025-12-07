@@ -1,0 +1,101 @@
+Résumé Essentiel – Limites, Dérivabilité, Primitives (Terminale)
+
+Leçon 1 — Limites
+
+🔥 Ce qu’il faut absolument retenir
+
+-   Une limite décrit le comportement d’une fonction quand x s’approche
+    d’une valeur.
+-   lim(x→a) f(x) existe si f(x) se rapproche d’un seul nombre.
+-   Les limites infinies (→ +∞ ou –∞) décrivent une divergence.
+
+✔ Formules essentielles
+
+-   lim(x→a) (x^n) = a^n
+-   lim(x→a) 1/x = 1/a sauf a = 0.
+-   Si f et g ont des limites finies :
+    -   lim(f+g) = lim(f) + lim(g)
+    -   lim(f·g) = lim(f)·lim(g)
+    -   lim(f/g) = lim(f)/lim(g) (si lim(g) ≠ 0)
+
+⚠ Erreurs classiques
+
+-   Oublier de vérifier si la limite du dénominateur est 0.
+-   Croire que toute limite existe : FAUX.
+
+💡 Tips rapides
+
+-   Factoriser avant de calculer.
+-   Remplacer x par des valeurs proches (méthode instinctive).
+-   Utiliser les variations quand la fonction est monotone.
+
+🎯 Exemple type contrôle
+
+  Calcule lim(x→2) (x² − 4)/(x − 2)
+  Factorise : (x−2)(x+2)/(x−2) → limite = 4.
+
+------------------------------------------------------------------------
+
+Leçon 2 — Dérivabilité
+
+🔥 À comprendre absolument
+
+Une fonction est dérivable en un point si elle est continue et si elle
+n’a pas d’angle/cuspide à ce point.
+
+✔ Formules de base
+
+-   (x^n)' = n·x^(n−1)
+-   (u·v)' = u'v + uv'
+-   (u/v)' = (u'v − uv') / v²
+-   (k·u)' = k·u'
+
+⚠ Erreurs fréquentes
+
+-   Confondre dérivée et pente d’une courbe.
+-   Oublier de dériver chaque terme.
+-   Dériver trop vite sans simplifier avant.
+
+💡 Tips rapides
+
+-   Toujours simplifier la fonction AVANT de dériver.
+-   Pour vérifier : regarde si la dérivée change bien de signe dans ton
+    tableau.
+
+📝 Exemple type contrôle
+
+  Dériver f(x) = (3x − 1)(2x + 5)
+  Développe ou utilise le produit :
+  f'(x) = 3(2x+5) + 2(3x−1) → = 12x + 13
+
+------------------------------------------------------------------------
+
+Leçon 3 — Primitives
+
+🔥 Le truc à retenir
+
+Une primitive, c’est une fonction F telle que F’ = f.
+
+✔ Formules à connaître
+
+-   Primitive de x^n = x^(n+1)/(n+1) (n ≠ −1)
+-   Primitive de 1/x = ln|x|
+-   Primitive de a·f(x) = a·F(x)
+-   Primitive de f+g = F + G
+
+⚠ Pièges classiques
+
+-   Oublier la constante +C.
+-   Confondre intégration et dérivation.
+-   Mauvaise application du cas n = −1.
+
+💡 Méthodes rapides
+
+-   Identifie la structure : polynomial ? 1/x ? somme ?
+-   Traite terme par terme.
+-   Vérifie en dérivant : si ça donne f(x), tu as gagné.
+
+🎯 Exemple contrôle
+
+  Trouve une primitive de 3x² − 4x + 7
+  = x³ − 2x² + 7x + C

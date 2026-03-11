@@ -5,11 +5,11 @@ StudPal is an intelligent chatbot designed to help students with their studies. 
 ## Technologies Used
 
 - Python
-- PyTorch
-- Hugging Face Transformers
+- LangChain (PDF loading, text splitting, retrieval)
+- HuggingFace Transformers / sentence-transformers (embeddings)
+- FAISS (vector store for fast similarity search)
 - Gradio (web interface)
 - Google FLAN-T5 model (LLM)
-- Haystack (for Retrieval-Augmented Generation)
 - PyPDF2 (for PDF text extraction)
 
 ## Features
@@ -19,8 +19,8 @@ StudPal is an intelligent chatbot designed to help students with their studies. 
 - Simple, user-friendly web interface
 - Fast and accurate responses powered by Google FLAN-T5
 - Adjustable temperature for creative or precise answers
-- **Retrieval-Augmented Generation (RAG):** Enhanced answers by retrieving relevant information from your documents using Haystack
-- **PDF Extraction:** Extracts and uses text from PDF documents for context-aware answers
+- **Retrieval-Augmented Generation (RAG):** Enhanced answers by retrieving relevant information from your documents using LangChain + FAISS
+- **PDF Ingestion + Chunking:** Converts PDFs into text chunks, embeds them, and stores them in a vector database for retrieval
 - **Translation:** Supports automatic translation between French and English for both questions and answers
 
 ## Usage
@@ -35,6 +35,7 @@ Recent updates:
 - Integrated Haystack for Retrieval-Augmented Generation (RAG)
 - Added PDF extraction for context-aware responses
 - Implemented translation between French and English
+- Switch from Haystack to Langchain for the RAG (Langchain is much easier and better lol !)
 
 I'm continuing to improve StudPal to make it even more helpful for students!
 

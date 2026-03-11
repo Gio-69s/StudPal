@@ -4,7 +4,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 
 # --- Load the PDF -------------------------------------------------------------
-# Replace this path with thecourse PDF 
+# Replace this path with the course PDF you want to ingest.
 loader = PyPDFLoader(
     r"C:\Users\giova\OneDrive\Documents\GitHub\StudPal\datas\Maths\Dossier_Af\analyse_fonctions.pdf"
 )
@@ -23,7 +23,7 @@ chunked_docs = splitter.split_documents(docs)
 print(f"Created {len(chunked_docs)} text chunks")
 
 # --- Embed the chunks ---------------------------------------------------------
-# We use a small, fast sentence transformer model via HuggingFace.
+# Use a small, fast sentence-transformer model via HuggingFace.
 embeddings = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2"
 )
@@ -36,15 +36,17 @@ vector_store = FAISS.from_documents(chunked_docs, embeddings)
 vector_store.save_local("my_vector_store")
 print("Vector store saved to 'my_vector_store'")
 
-retriever = vector_store.as_retriever(
-    search_kwargs={"k":4}
-)
+# --- Simple retrieval example --------------------------------------------------
+# Create a retriever and query it for relevant chunks.
+# Note: For real applications, use the `Retriever.get_relevant_documents` API instead of
+# accessing underlying private APIs like `_get_relevant_documents`.
+retriever = vector_store.as_retriever(search_kwargs={"k": 4})
 
-relevant_chunk= retriever._get_relevant_documents("Limite")
+relevant_chunk= retriever._get_relevant_documents(run_manager="Limite")
 
 for chunk in relevant_chunk :
     print(chunk.page_content)
-    print("--------------------------")
+    print("---")
 
 
 

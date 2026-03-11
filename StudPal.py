@@ -2,6 +2,10 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
+from langchain import PromptTemplate
+from langchain_huggingface import HuggingFacePipeline
+from  dotenv import load_dotenv
+import os
 
 # --- Load the PDF -------------------------------------------------------------
 # Replace this path with the course PDF you want to ingest.
@@ -40,13 +44,54 @@ print("Vector store saved to 'my_vector_store'")
 # Create a retriever and query it for relevant chunks.
 # Note: For real applications, use the `Retriever.get_relevant_documents` API instead of
 # accessing underlying private APIs like `_get_relevant_documents`.
-retriever = vector_store.as_retriever(search_kwargs={"k": 4})
+retriever = vector_store.as_retriever(search_type= "similarity",search_kwargs={"k": 4})
 
-relevant_chunk= retriever._get_relevant_documents(run_manager="Limite")
+# Load environment variables from a .env file (for API keys, endpoint URLs, etc.).
+load_dotenv()
 
-for chunk in relevant_chunk :
-    print(chunk.page_content)
-    print("---")
+# Initialize the LLM pipeline (uses a HuggingFace model under the hood).
+# Adjust `model_kwargs` as needed for temperature, token limits, etc.
+llm = HuggingFacePipeline(
+    model_id="mistralai/Mistral-7B-Instruct-v0.2",
+    model_kwargs={
+        "temperature": 0.3,
+        "max_token": 502,
+    },
+)
+
+
+# --- Prompt templates --------------------------------------------------------
+# Template for a question-answering flow. The {context} placeholder is filled with
+# the chunks retrieved from the vector store (relevant text from the PDF).
+qa_template = '''Tu es un assistant d'études précieux pour un étudiant de BAC ivoirien. 
+Utilises le contexte suivant pour répondre à la question de manière claire et précise. 
+Si tu ne sais pas, dis-le - ne ments surtout pas.
+
+Context :
+{context}
+
+Question : {question}
+
+Réponse : '''
+
+# Template for generating a full exercise + correction based on a given context.
+exercise_template = '''Tu es un professeur de mathématiques en terminale scientifique (niveau bac+2). 
+À partir du programme suivant, élabores un exercice de type bac+2 avec sa correction complète à la fin.
+Contenu du programme:
+{context}
+
+Génération de l'exercice maintenant :'''
+
+# Create PromptTemplate objects for each use case.
+qa_prompt = PromptTemplate(
+    template=qa_template,
+    input_variables=["context", "question"],
+)
+
+exercise_prompt = PromptTemplate(
+    template=exercise_template,
+    input_variables=["context"],
+)
 
 
 

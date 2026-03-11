@@ -8,9 +8,8 @@ StudPal is an intelligent chatbot designed to help students with their studies. 
 - LangChain (PDF loading, text splitting, retrieval)
 - HuggingFace Transformers / sentence-transformers (embeddings)
 - FAISS (vector store for fast similarity search)
-- Gradio (web interface)
+- Streamlit (web interface)
 - Google FLAN-T5 model (LLM)
-- PyPDF2 (for PDF text extraction)
 
 ## Features
 

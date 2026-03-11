@@ -36,6 +36,16 @@ vector_store = FAISS.from_documents(chunked_docs, embeddings)
 vector_store.save_local("my_vector_store")
 print("Vector store saved to 'my_vector_store'")
 
+retriever = vector_store.as_retriever(
+    search_kwargs={"k":4}
+)
+
+relevant_chunk= retriever._get_relevant_documents("Limite")
+
+for chunk in relevant_chunk :
+    print(chunk.page_content)
+    print("--------------------------")
+
 
 
 

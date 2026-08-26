@@ -42,8 +42,6 @@ print("Vector store saved to 'my_vector_store'")
 
 # --- Simple retrieval example --------------------------------------------------
 # Create a retriever and query it for relevant chunks.
-# Note: For real applications, use the `Retriever.get_relevant_documents` API instead of
-# accessing underlying private APIs like `_get_relevant_documents`.
 retriever = vector_store.as_retriever(search_type= "similarity",search_kwargs={"k": 4})
 
 # Load environment variables from a .env file (for API keys, endpoint URLs, etc.).
@@ -56,7 +54,7 @@ llm = HuggingFacePipeline(
     model_kwargs={
         "temperature": 0.3,
         "max_token": 502,
-    },
+    } ,
 )
 
 

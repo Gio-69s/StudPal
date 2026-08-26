@@ -1,11 +1,9 @@
 langchain
 langchain-community
-sentence-transformers
-faiss-cpu
-pypdf
-transformers
-torch
-streamlit
-TextLoader
 langchain-text-splitters
 langchain-huggingface
+sentence-transformers
+faiss-cpu
+pymupdf
+pypdf
+streamlit

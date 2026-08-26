@@ -6,10 +6,12 @@ DirectoryLoader = _document_loaders.DirectoryLoader
 PyMuPDFLoader = _document_loaders.PyMuPDFLoader
 _text_splitter = import_module("langchain_text_splitters")
 RecursiveCharacterTextSplitter = _text_splitter.RecursiveCharacterTextSplitter
-_embeddings = import_module("langchain-huggingface")
-vectorscore = import_module("langchain_community.vectorstores ")
+_embeddings = import_module("langchain_huggingface")
 HuggingFaceEmbeddings = _embeddings.HuggingFaceEmbeddings
-vs=vectorscore.FAISS
+vector_store = import_module("langchain_community.vectorstores")
+FAISS = vector_store.FAISS
+
+
 
 loader = DirectoryLoader(
     "datas/Maths",

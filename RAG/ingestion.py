@@ -4,9 +4,12 @@ from importlib import import_module
 _document_loaders = import_module("langchain_community.document_loaders")
 DirectoryLoader = _document_loaders.DirectoryLoader
 PyMuPDFLoader = _document_loaders.PyMuPDFLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAISS
+_text_splitter = import_module("langchain_text_splitters")
+RecursiveCharacterTextSplitter = _text_splitter.RecursiveCharacterTextSplitter
+_embeddings = import_module("langchain-huggingface")
+vectorscore = import_module("langchain_community.vectorstores ")
+HuggingFaceEmbeddings = _embeddings.HuggingFaceEmbeddings
+vs=vectorscore.FAISS
 
 loader = DirectoryLoader(
     "datas/Maths",

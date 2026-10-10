@@ -1,16 +1,5 @@
-from importlib import import_module
-
-
-# Charge les classes LangChain dynamiquement pour limiter les imports directs.
-_document_loaders = import_module("langchain_community.document_loaders")
-DirectoryLoader = _document_loaders.DirectoryLoader
-PyMuPDFLoader = _document_loaders.PyMuPDFLoader
-_text_splitter = import_module("langchain_text_splitters")
-RecursiveCharacterTextSplitter = _text_splitter.RecursiveCharacterTextSplitter
-_embeddings = import_module("langchain_huggingface")
-HuggingFaceEmbeddings = _embeddings.HuggingFaceEmbeddings
-vector_store = import_module("langchain_community.vectorstores")
-FAISS = vector_store.FAISS
+from langchain_community.document_loaders import PyMuPDFLoader
+from langchain_text_splitters
 
 
 # Recherche tous les fichiers PDF du dossier de ressources mathématiques.

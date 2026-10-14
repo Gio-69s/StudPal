@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 from langchain import PromptTemplate 
+import retrieval
 
 
 # Charge les variables d'environnement, notamment la clé d'accès à OpenRouter.
@@ -35,6 +36,9 @@ response = client.chat.completions.create(
     max_tokens=500 ,
 )
 
+context =retrieval.docs
+question = input("What's your preoccupation ?")
+ 
 # Modèle de prompt réutilisable pour répondre à une question à partir
 # d'un contexte fourni, en demandant au modèle de signaler ses incertitudes.
 qa_template = '''Tu es un assistant d'études précieux pour un étudiant de BAC ivoirien. 
@@ -53,3 +57,6 @@ qa_prompt = PromptTemplate(
     template=qa_template,
     input_variables=["context", "question"],
 )
+
+
+

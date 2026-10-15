@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
-from langchain import PromptTemplate 
+from langchain_core.prompts import PromptTemplate
 import retrieval
 
 
@@ -36,8 +36,6 @@ response = client.chat.completions.create(
     max_tokens=500 ,
 )
 
-context =retrieval.docs
-question = input("What's your preoccupation ?")
  
 # Modèle de prompt réutilisable pour répondre à une question à partir
 # d'un contexte fourni, en demandant au modèle de signaler ses incertitudes.
@@ -57,6 +55,9 @@ qa_prompt = PromptTemplate(
     template=qa_template,
     input_variables=["context", "question"],
 )
+
+context = " ".join(retrieval.chunk_text)
+question = input()
 
 
 

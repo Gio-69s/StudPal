@@ -5,6 +5,32 @@ from langchain_core.prompts import PromptTemplate
 import retrieval
 
 
+# Modèle de prompt réutilisable pour répondre à une question à partir
+# d'un contexte fourni, en demandant au modèle de signaler ses incertitudes.
+qa_template = '''Tu es un assistant d'études précieux pour un étudiant de BAC ivoirien. 
+Utilises le contexte suivant pour répondre à la question de manière claire et précise. 
+Si tu ne sais pas, dis-le - ne ments surtout pas.
+
+Context :
+{context}
+
+Question : {question}
+
+Réponse : '''
+
+# Associe les emplacements du modèle aux valeurs à fournir lors de son utilisation.
+qa_prompt = PromptTemplate(
+    template=qa_template,
+    input_variables=["context", "question"],
+)
+question = input()
+
+if question : 
+    retrieval.docs
+    context = " ".join(retrieval.chunk_text)
+
+
+
 # Charge les variables d'environnement, notamment la clé d'accès à OpenRouter.
 load_dotenv()
 
@@ -37,27 +63,3 @@ response = client.chat.completions.create(
 )
 
  
-# Modèle de prompt réutilisable pour répondre à une question à partir
-# d'un contexte fourni, en demandant au modèle de signaler ses incertitudes.
-qa_template = '''Tu es un assistant d'études précieux pour un étudiant de BAC ivoirien. 
-Utilises le contexte suivant pour répondre à la question de manière claire et précise. 
-Si tu ne sais pas, dis-le - ne ments surtout pas.
-
-Context :
-{context}
-
-Question : {question}
-
-Réponse : '''
-
-# Associe les emplacements du modèle aux valeurs à fournir lors de son utilisation.
-qa_prompt = PromptTemplate(
-    template=qa_template,
-    input_variables=["context", "question"],
-)
-
-context = " ".join(retrieval.chunk_text)
-question = input()
-
-
-

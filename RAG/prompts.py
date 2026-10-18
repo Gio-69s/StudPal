@@ -23,11 +23,11 @@ qa_prompt = PromptTemplate(
     template=qa_template,
     input_variables=["context", "question"],
 )
-question = input()
 
-if question : 
-    retrieval.docs
-    context = " ".join(retrieval.chunk_text)
+formatted = qa_prompt.format(
+    context = " ".join(retrieval.chunk_text) , 
+    question = input()
+)
 
 
 
@@ -56,6 +56,11 @@ response = client.chat.completions.create(
                 "en français simple, avec rigueur."
             ),
         },
+
+        {
+            "role":"user" ,
+            "user" : qa_template,
+        }
 
     ],
     # Limite la longueur maximale de la réponse générée.

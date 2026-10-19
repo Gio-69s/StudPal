@@ -13,7 +13,6 @@ retriever = ingestion.vector_store.as_retriever(
 
 # Exécution de la recherche dans la base vectorielle.
 # On recherche les passages les plus pertinents par rapport à la question.
-
 docs = retriever.invoke(prompts.question)
 
 # Liste qui contiendra le texte de chaque document récupéré.

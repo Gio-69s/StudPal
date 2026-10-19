@@ -59,7 +59,7 @@ response = client.chat.completions.create(
 
         {
             "role":"user" ,
-            "user" : qa_template,
+            "user" : formatted,
         }
 
     ],

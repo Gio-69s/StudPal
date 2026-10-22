@@ -81,4 +81,8 @@ response = client.chat.completions.create(
     max_tokens=500 ,
 )
 
+# Affiche le texte de la réponse générée par le modèle.
+print(response.choices[0].message.content)
+
+
  

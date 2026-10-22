@@ -1,7 +1,12 @@
+# Module standard utilisé pour lire la clé d'API depuis les variables d'environnement.
 import os
+# Charge les variables définies dans un fichier .env.
 from dotenv import load_dotenv
+# Fournit le client pour envoyer des requêtes à une API compatible avec OpenAI.
 from openai import OpenAI
+# Construit un modèle de prompt à partir d'un texte et de variables à remplir.
 from langchain_core.prompts import PromptTemplate
+# Récupère les extraits de contexte associés à une question.
 from retrieval import retrieving_and_context_chunk
 
 
@@ -24,9 +29,12 @@ qa_prompt = PromptTemplate(
     input_variables=["context", "question"],
 )
 
+# Récupère la question saisie par l'utilisateur dans le terminal.
 question = input()
+# Recherche le contexte pertinent, puis réunit les extraits en une seule chaîne.
 context = " ".join(retrieving_and_context_chunk(question))
 
+# Remplace les variables du modèle de prompt par la question et le contexte.
 formatted = qa_prompt.format(
      question ,
      context
@@ -37,6 +45,7 @@ formatted = qa_prompt.format(
 # Charge les variables d'environnement, notamment la clé d'accès à OpenRouter.
 load_dotenv()
 
+# Initialise le client HTTP avec l'URL de l'API OpenRouter et la clé configurée.
 # Le client OpenAI est configuré pour communiquer avec l'API compatible
 # d'OpenRouter ; la clé est lue depuis OPENROUTER_API_KEY.
 client = OpenAI(
@@ -45,6 +54,7 @@ client = OpenAI(
 
 )
 
+# Envoie le prompt au modèle et récupère sa réponse.
 # Demande au modèle d'expliquer un concept de mathématiques de Terminale D
 # en français accessible et rigoureux.
 response = client.chat.completions.create(
@@ -60,6 +70,7 @@ response = client.chat.completions.create(
             ),
         },
 
+        # Transmet au modèle le prompt complété avec la question et le contexte.
         {
             "role":"user" ,
             "content" : formatted,

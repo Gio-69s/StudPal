@@ -9,8 +9,12 @@ retriever = ingestion.vector_store.as_retriever(
     search_kwargs={"k": 4}
 )
 
+# Recherche les extraits les plus pertinents dans la base vectorielle pour la question reçue.
 def retrieving_and_context_chunk(question_received):
    
+    # Interroge le retriever et récupère les documents correspondants.
     docs = retriever.invoke(question_received)
+    # Extrait le contenu textuel de chaque document trouvé.
     chunk_text = [doc.page_content for doc in docs]
+    # Renvoie la liste des extraits afin qu'ils puissent être intégrés au prompt.
     return chunk_text

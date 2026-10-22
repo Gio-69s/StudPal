@@ -30,14 +30,14 @@ qa_prompt = PromptTemplate(
 )
 
 # Récupère la question saisie par l'utilisateur dans le terminal.
-question = input()
+Query = input()
 # Recherche le contexte pertinent, puis réunit les extraits en une seule chaîne.
-context = " ".join(retrieving_and_context_chunk(question))
+Background = " ".join(retrieving_and_context_chunk(Query))
 
 # Remplace les variables du modèle de prompt par la question et le contexte.
 formatted = qa_prompt.format(
-     question ,
-     context
+     context= Background , 
+     question = Query
 )
 
 

@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 from langchain_core.prompts import PromptTemplate
-import retrieval
+from retrieval import retrieving_and_context_chunk
 
 
 # Modèle de prompt réutilisable pour répondre à une question à partir
@@ -24,9 +24,12 @@ qa_prompt = PromptTemplate(
     input_variables=["context", "question"],
 )
 
+question = input()
+context = " ".join(retrieving_and_context_chunk(question))
+
 formatted = qa_prompt.format(
-    context = " ".join(retrieval.chunk_text) , 
-    question = input()
+     question ,
+     context
 )
 
 

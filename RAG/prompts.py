@@ -76,6 +76,7 @@ response = client.chat.completions.create(
                 5. Préserve toutes les notations mathématiques ainsi que les commandes LaTeX.
                 6. Combine le Markdown et le LaTeX de manière naturelle au sein d'une même réponse.
                 Ton objectif est de proposer des explications lisibles, pédagogiques et mathématiquement rigoureuses.'''
+                "Respecte surtout la longueur maximale de token , fais en sorte que tes reponses ne soient pas incompletes."
             ),
         },
 

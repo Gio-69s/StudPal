@@ -88,7 +88,7 @@ response = client.chat.completions.create(
 
     ],
     # Limite la longueur maximale de la réponse générée.
-    max_tokens=500 ,
+    max_tokens=3000 ,
 )
 
 # Affiche le texte de la réponse générée par le modèle.
